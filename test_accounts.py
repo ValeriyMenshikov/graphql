@@ -12,7 +12,7 @@ structlog.configure(
 
 def test_accounts():
     client = GraphQLClient(
-        host='http://localhost:5051/qrahpql',
+        host='http://localhost:5051/graphql',
         schema=schema
     )
 
