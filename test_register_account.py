@@ -9,7 +9,7 @@ import pprint
 
 def test_register_account():
     client = GraphQLClient(
-        service_name='http://localhost:5051/',
+        host='http://localhost:5051/graphql',
         schema=schema
     )
     mutation = client.mutation('registerAccount')

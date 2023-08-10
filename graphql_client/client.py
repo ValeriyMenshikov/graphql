@@ -9,16 +9,14 @@ class GraphQLClient:
     def __init__(
             self,
             schema: Schema,
-            service_name: str,
-            endpoint: str = "graphql/",
+            host: str,
             disable_log: bool = False,
             base_headers: dict = None
     ):
         self.schema = schema
         self.disable_log = disable_log
-        self.service_name = service_name
-        self.endpoint = endpoint
-        self._endpoint = HTTPEndpoint(self.service_name + self.endpoint)
+        self.host = host
+        self._endpoint = HTTPEndpoint(self.host)
 
         if base_headers:
             self._endpoint.base_headers = base_headers

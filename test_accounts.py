@@ -8,7 +8,7 @@ import pprint
 
 def test_accounts():
     client = GraphQLClient(
-        service_name='http://localhost:5051/',
+        host='http://localhost:5051/graphql',
         schema=schema
     )
 
