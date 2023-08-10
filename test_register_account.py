@@ -2,20 +2,22 @@ from sgqlc.endpoint.http import HTTPEndpoint
 from sgqlc.operation import Operation
 
 import schema
-from schema import Mutation, RegistrationInput, AccountRegisterResponse
+from graphql_client.client import GraphQLClient
+from schema import Mutation, RegistrationInput, AccountRegisterResponse, schema
 import pprint
 
 
 def test_register_account():
-    url = 'http://localhost:5051/graphql'
-    mutation = Operation(schema.Mutation, 'registerAccount')
+    client = GraphQLClient(
+        service_name='http://localhost:5051/',
+        schema=schema
+    )
+    mutation = client.mutation('registerAccount')
     mutation_query = RegistrationInput(
-        email="valeriy_menshikov1@mail.ru",
-        login="valeriy_menshikov1",
-        password="valeriy_menshikov1"
+        email="valeriy_menshikov2@mail.ru",
+        login="valeriy_menshikov2",
+        password="valeriy_menshikov2"
     )
     mutation.register_account(registration=mutation_query)
-    print(mutation)
-    endpoint = HTTPEndpoint(url)
-    data = endpoint(mutation)
-    pprint.pprint(data)
+    response = client.request(mutation)
+    pprint.pprint(response)
