@@ -36,7 +36,6 @@ class GraphQLAccountApi:
             number=number,
             size=size
         )
-
         query = self.client.query(name='accounts')
         query.accounts(paging=paging, with_inactive=True)
         response = self.client.request(query=query)

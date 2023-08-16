@@ -10,7 +10,7 @@ structlog.configure(
 
 def test_register_account():
     client = GraphQLAccountApi(
-        host='http://localhost:5051/graphql',
+        host='http://5.63.153.31:5051/graphql',
     )
 
     email = "valeriy_menshikov2@mail.ru"

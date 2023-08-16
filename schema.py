@@ -1,7 +1,9 @@
 import sgqlc.types
 import sgqlc.types.datetime
 
+
 schema = sgqlc.types.Schema()
+
 
 __docformat__ = 'markdown'
 
@@ -9,19 +11,6 @@ __docformat__ = 'markdown'
 ########################################################################
 # Scalars and Enumerations
 ########################################################################
-class AccessPolicy(sgqlc.types.Enum):
-    '''Enumeration Choices:
-
-    * `CHAT_BAN`
-    * `DEMOCRATIC_BAN`
-    * `FULL_BAN`
-    * `NOT_SPECIFIED`
-    * `RESTRICT_CONTENT_EDITING`
-    '''
-    __schema__ = schema
-    __choices__ = ('CHAT_BAN', 'DEMOCRATIC_BAN', 'FULL_BAN', 'NOT_SPECIFIED', 'RESTRICT_CONTENT_EDITING')
-
-
 class BbParseMode(sgqlc.types.Enum):
     '''Enumeration Choices:
 
@@ -35,7 +24,6 @@ class BbParseMode(sgqlc.types.Enum):
 
 
 Boolean = sgqlc.types.Boolean
-
 
 class ColorSchema(sgqlc.types.Enum):
     '''Enumeration Choices:
@@ -54,7 +42,6 @@ DateTime = sgqlc.types.datetime.DateTime
 
 Int = sgqlc.types.Int
 
-
 class MutationResult(sgqlc.types.Enum):
     '''Enumeration Choices:
 
@@ -65,7 +52,6 @@ class MutationResult(sgqlc.types.Enum):
 
 
 String = sgqlc.types.String
-
 
 class UUID(sgqlc.types.Scalar):
     __schema__ = schema
@@ -85,6 +71,7 @@ class UserRole(sgqlc.types.Enum):
     __choices__ = ('ADMINISTRATOR', 'GUEST', 'NANNY_MODERATOR', 'PLAYER', 'REGULAR_MODERATOR', 'SENIOR_MODERATOR')
 
 
+
 ########################################################################
 # Input Objects
 ########################################################################
@@ -96,6 +83,7 @@ class ChangeEmailInput(sgqlc.types.Input):
     password = sgqlc.types.Field(String, graphql_name='password')
 
     email = sgqlc.types.Field(String, graphql_name='email')
+
 
 
 class ChangePasswordInput(sgqlc.types.Input):
@@ -110,6 +98,7 @@ class ChangePasswordInput(sgqlc.types.Input):
     new_password = sgqlc.types.Field(String, graphql_name='newPassword')
 
 
+
 class LoginCredentialsInput(sgqlc.types.Input):
     __schema__ = schema
     __field_names__ = ('login', 'password', 'remember_me')
@@ -118,6 +107,7 @@ class LoginCredentialsInput(sgqlc.types.Input):
     password = sgqlc.types.Field(String, graphql_name='password')
 
     remember_me = sgqlc.types.Field(sgqlc.types.non_null(Boolean), graphql_name='rememberMe')
+
 
 
 class PagingQueryInput(sgqlc.types.Input):
@@ -130,10 +120,10 @@ class PagingQueryInput(sgqlc.types.Input):
     size = sgqlc.types.Field(Int, graphql_name='size')
 
 
+
 class PagingSettingsInput(sgqlc.types.Input):
     __schema__ = schema
-    __field_names__ = (
-    'posts_per_page', 'comments_per_page', 'topics_per_page', 'messages_per_page', 'entities_per_page')
+    __field_names__ = ('posts_per_page', 'comments_per_page', 'topics_per_page', 'messages_per_page', 'entities_per_page')
     posts_per_page = sgqlc.types.Field(sgqlc.types.non_null(Int), graphql_name='postsPerPage')
 
     comments_per_page = sgqlc.types.Field(sgqlc.types.non_null(Int), graphql_name='commentsPerPage')
@@ -143,6 +133,7 @@ class PagingSettingsInput(sgqlc.types.Input):
     messages_per_page = sgqlc.types.Field(sgqlc.types.non_null(Int), graphql_name='messagesPerPage')
 
     entities_per_page = sgqlc.types.Field(sgqlc.types.non_null(Int), graphql_name='entitiesPerPage')
+
 
 
 class RegistrationInput(sgqlc.types.Input):
@@ -155,12 +146,14 @@ class RegistrationInput(sgqlc.types.Input):
     password = sgqlc.types.Field(String, graphql_name='password')
 
 
+
 class ResetPasswordInput(sgqlc.types.Input):
     __schema__ = schema
     __field_names__ = ('login', 'email')
     login = sgqlc.types.Field(String, graphql_name='login')
 
     email = sgqlc.types.Field(String, graphql_name='email')
+
 
 
 class UpdateUserInput(sgqlc.types.Input):
@@ -185,6 +178,7 @@ class UpdateUserInput(sgqlc.types.Input):
     settings = sgqlc.types.Field('UserSettingsInput', graphql_name='settings')
 
 
+
 class UserSettingsInput(sgqlc.types.Input):
     __schema__ = schema
     __field_names__ = ('id', 'nanny_greetings_message', 'color_schema', 'paging')
@@ -195,6 +189,8 @@ class UserSettingsInput(sgqlc.types.Input):
     color_schema = sgqlc.types.Field(sgqlc.types.non_null(ColorSchema), graphql_name='colorSchema')
 
     paging = sgqlc.types.Field(PagingSettingsInput, graphql_name='paging')
+
+
 
 
 ########################################################################
@@ -208,6 +204,7 @@ class AccountLoginResponse(sgqlc.types.Type):
     user = sgqlc.types.Field('EnvelopeOfUser', graphql_name='user')
 
 
+
 class AccountRegisterResponse(sgqlc.types.Type):
     __schema__ = schema
     __field_names__ = ('id', 'login')
@@ -216,12 +213,14 @@ class AccountRegisterResponse(sgqlc.types.Type):
     login = sgqlc.types.Field(String, graphql_name='login')
 
 
+
 class AccountsResponse(sgqlc.types.Type):
     __schema__ = schema
     __field_names__ = ('users', 'paging')
-    users = sgqlc.types.Field(sgqlc.types.list_of('GeneralUser'), graphql_name='users')
+    users = sgqlc.types.Field(sgqlc.types.list_of('User'), graphql_name='users')
 
     paging = sgqlc.types.Field('PagingResult', graphql_name='paging')
+
 
 
 class EnvelopeOfUser(sgqlc.types.Type):
@@ -230,48 +229,12 @@ class EnvelopeOfUser(sgqlc.types.Type):
     resource = sgqlc.types.Field('User', graphql_name='resource')
 
 
+
 class EnvelopeOfUserDetails(sgqlc.types.Type):
     __schema__ = schema
     __field_names__ = ('resource',)
     resource = sgqlc.types.Field('UserDetails', graphql_name='resource')
 
-
-class GeneralUser(sgqlc.types.Type):
-    __schema__ = schema
-    __field_names__ = ('user_id', 'login', 'email', 'role', 'access_policy', 'last_visit_date', 'original_picture_url',
-                       'medium_picture_url', 'small_picture_url', 'status', 'name', 'location', 'rating_disabled',
-                       'quality_rating', 'quantity_rating', 'is_authenticated')
-    user_id = sgqlc.types.Field(sgqlc.types.non_null(UUID), graphql_name='userId')
-
-    login = sgqlc.types.Field(String, graphql_name='login')
-
-    email = sgqlc.types.Field(String, graphql_name='email')
-
-    role = sgqlc.types.Field(sgqlc.types.non_null(UserRole), graphql_name='role')
-
-    access_policy = sgqlc.types.Field(sgqlc.types.non_null(AccessPolicy), graphql_name='accessPolicy')
-
-    last_visit_date = sgqlc.types.Field(DateTime, graphql_name='lastVisitDate')
-
-    original_picture_url = sgqlc.types.Field(String, graphql_name='originalPictureUrl')
-
-    medium_picture_url = sgqlc.types.Field(String, graphql_name='mediumPictureUrl')
-
-    small_picture_url = sgqlc.types.Field(String, graphql_name='smallPictureUrl')
-
-    status = sgqlc.types.Field(String, graphql_name='status')
-
-    name = sgqlc.types.Field(String, graphql_name='name')
-
-    location = sgqlc.types.Field(String, graphql_name='location')
-
-    rating_disabled = sgqlc.types.Field(sgqlc.types.non_null(Boolean), graphql_name='ratingDisabled')
-
-    quality_rating = sgqlc.types.Field(sgqlc.types.non_null(Int), graphql_name='qualityRating')
-
-    quantity_rating = sgqlc.types.Field(sgqlc.types.non_null(Int), graphql_name='quantityRating')
-
-    is_authenticated = sgqlc.types.Field(sgqlc.types.non_null(Boolean), graphql_name='isAuthenticated')
 
 
 class InfoBbText(sgqlc.types.Type):
@@ -282,6 +245,7 @@ class InfoBbText(sgqlc.types.Type):
     value = sgqlc.types.Field(String, graphql_name='value')
 
 
+
 class LoginEvent(sgqlc.types.Type):
     __schema__ = schema
     __field_names__ = ('login', 'timestamp')
@@ -290,18 +254,14 @@ class LoginEvent(sgqlc.types.Type):
     timestamp = sgqlc.types.Field(sgqlc.types.non_null(DateTime), graphql_name='timestamp')
 
 
+
 class Mutation(sgqlc.types.Type):
     __schema__ = schema
-    __field_names__ = (
-    'register_account', 'activate_account', 'change_account_email', 'reset_account_password', 'change_account_password',
-    'update_account', 'login_account', 'logout_account', 'logout_all_account')
-    register_account = sgqlc.types.Field(AccountRegisterResponse, graphql_name='registerAccount',
-                                         args=sgqlc.types.ArgDict((
-                                             ('registration',
-                                              sgqlc.types.Arg(RegistrationInput, graphql_name='registration',
-                                                              default=None)),
-                                         ))
-                                         )
+    __field_names__ = ('register_account', 'activate_account', 'change_account_email', 'reset_account_password', 'change_account_password', 'update_account', 'login_account', 'logout_account', 'logout_all_account')
+    register_account = sgqlc.types.Field(AccountRegisterResponse, graphql_name='registerAccount', args=sgqlc.types.ArgDict((
+        ('registration', sgqlc.types.Arg(RegistrationInput, graphql_name='registration', default=None)),
+))
+    )
     '''Arguments:
 
     * `registration` (`RegistrationInput`)
@@ -309,44 +269,35 @@ class Mutation(sgqlc.types.Type):
 
     activate_account = sgqlc.types.Field(EnvelopeOfUser, graphql_name='activateAccount', args=sgqlc.types.ArgDict((
         ('activation_token', sgqlc.types.Arg(sgqlc.types.non_null(UUID), graphql_name='activationToken', default=None)),
-    ))
-                                         )
+))
+    )
     '''Arguments:
 
     * `activation_token` (`UUID!`)
     '''
 
-    change_account_email = sgqlc.types.Field(EnvelopeOfUser, graphql_name='changeAccountEmail',
-                                             args=sgqlc.types.ArgDict((
-                                                 ('change_email',
-                                                  sgqlc.types.Arg(ChangeEmailInput, graphql_name='changeEmail',
-                                                                  default=None)),
-                                             ))
-                                             )
+    change_account_email = sgqlc.types.Field(EnvelopeOfUser, graphql_name='changeAccountEmail', args=sgqlc.types.ArgDict((
+        ('change_email', sgqlc.types.Arg(ChangeEmailInput, graphql_name='changeEmail', default=None)),
+))
+    )
     '''Arguments:
 
     * `change_email` (`ChangeEmailInput`)
     '''
 
-    reset_account_password = sgqlc.types.Field(EnvelopeOfUser, graphql_name='resetAccountPassword',
-                                               args=sgqlc.types.ArgDict((
-                                                   ('reset_password',
-                                                    sgqlc.types.Arg(ResetPasswordInput, graphql_name='resetPassword',
-                                                                    default=None)),
-                                               ))
-                                               )
+    reset_account_password = sgqlc.types.Field(EnvelopeOfUser, graphql_name='resetAccountPassword', args=sgqlc.types.ArgDict((
+        ('reset_password', sgqlc.types.Arg(ResetPasswordInput, graphql_name='resetPassword', default=None)),
+))
+    )
     '''Arguments:
 
     * `reset_password` (`ResetPasswordInput`)
     '''
 
-    change_account_password = sgqlc.types.Field(EnvelopeOfUser, graphql_name='changeAccountPassword',
-                                                args=sgqlc.types.ArgDict((
-                                                    ('change_password',
-                                                     sgqlc.types.Arg(ChangePasswordInput, graphql_name='changePassword',
-                                                                     default=None)),
-                                                ))
-                                                )
+    change_account_password = sgqlc.types.Field(EnvelopeOfUser, graphql_name='changeAccountPassword', args=sgqlc.types.ArgDict((
+        ('change_password', sgqlc.types.Arg(ChangePasswordInput, graphql_name='changePassword', default=None)),
+))
+    )
     '''Arguments:
 
     * `change_password` (`ChangePasswordInput`)
@@ -355,8 +306,8 @@ class Mutation(sgqlc.types.Type):
     update_account = sgqlc.types.Field(EnvelopeOfUserDetails, graphql_name='updateAccount', args=sgqlc.types.ArgDict((
         ('access_token', sgqlc.types.Arg(String, graphql_name='accessToken', default=None)),
         ('user_data', sgqlc.types.Arg(UpdateUserInput, graphql_name='userData', default=None)),
-    ))
-                                       )
+))
+    )
     '''Arguments:
 
     * `access_token` (`String`)
@@ -365,34 +316,31 @@ class Mutation(sgqlc.types.Type):
 
     login_account = sgqlc.types.Field(AccountLoginResponse, graphql_name='loginAccount', args=sgqlc.types.ArgDict((
         ('login', sgqlc.types.Arg(LoginCredentialsInput, graphql_name='login', default=None)),
-    ))
-                                      )
+))
+    )
     '''Arguments:
 
     * `login` (`LoginCredentialsInput`)
     '''
 
-    logout_account = sgqlc.types.Field(sgqlc.types.non_null(MutationResult), graphql_name='logoutAccount',
-                                       args=sgqlc.types.ArgDict((
-                                           ('access_token',
-                                            sgqlc.types.Arg(String, graphql_name='accessToken', default=None)),
-                                       ))
-                                       )
+    logout_account = sgqlc.types.Field(sgqlc.types.non_null(MutationResult), graphql_name='logoutAccount', args=sgqlc.types.ArgDict((
+        ('access_token', sgqlc.types.Arg(String, graphql_name='accessToken', default=None)),
+))
+    )
     '''Arguments:
 
     * `access_token` (`String`)
     '''
 
-    logout_all_account = sgqlc.types.Field(sgqlc.types.non_null(MutationResult), graphql_name='logoutAllAccount',
-                                           args=sgqlc.types.ArgDict((
-                                               ('access_token',
-                                                sgqlc.types.Arg(String, graphql_name='accessToken', default=None)),
-                                           ))
-                                           )
+    logout_all_account = sgqlc.types.Field(sgqlc.types.non_null(MutationResult), graphql_name='logoutAllAccount', args=sgqlc.types.ArgDict((
+        ('access_token', sgqlc.types.Arg(String, graphql_name='accessToken', default=None)),
+))
+    )
     '''Arguments:
 
     * `access_token` (`String`)
     '''
+
 
 
 class PagingResult(sgqlc.types.Type):
@@ -409,10 +357,10 @@ class PagingResult(sgqlc.types.Type):
     entity_number = sgqlc.types.Field(sgqlc.types.non_null(Int), graphql_name='entityNumber')
 
 
+
 class PagingSettings(sgqlc.types.Type):
     __schema__ = schema
-    __field_names__ = (
-    'posts_per_page', 'comments_per_page', 'topics_per_page', 'messages_per_page', 'entities_per_page')
+    __field_names__ = ('posts_per_page', 'comments_per_page', 'topics_per_page', 'messages_per_page', 'entities_per_page')
     posts_per_page = sgqlc.types.Field(sgqlc.types.non_null(Int), graphql_name='postsPerPage')
 
     comments_per_page = sgqlc.types.Field(sgqlc.types.non_null(Int), graphql_name='commentsPerPage')
@@ -424,13 +372,14 @@ class PagingSettings(sgqlc.types.Type):
     entities_per_page = sgqlc.types.Field(sgqlc.types.non_null(Int), graphql_name='entitiesPerPage')
 
 
+
 class Query(sgqlc.types.Type):
     __schema__ = schema
     __field_names__ = ('account_current', 'accounts')
     account_current = sgqlc.types.Field(EnvelopeOfUserDetails, graphql_name='accountCurrent', args=sgqlc.types.ArgDict((
         ('access_token', sgqlc.types.Arg(String, graphql_name='accessToken', default=None)),
-    ))
-                                        )
+))
+    )
     '''Arguments:
 
     * `access_token` (`String`)
@@ -439,13 +388,14 @@ class Query(sgqlc.types.Type):
     accounts = sgqlc.types.Field(AccountsResponse, graphql_name='accounts', args=sgqlc.types.ArgDict((
         ('paging', sgqlc.types.Arg(PagingQueryInput, graphql_name='paging', default=None)),
         ('with_inactive', sgqlc.types.Arg(sgqlc.types.non_null(Boolean), graphql_name='withInactive', default=None)),
-    ))
-                                 )
+))
+    )
     '''Arguments:
 
     * `paging` (`PagingQueryInput`)
     * `with_inactive` (`Boolean!`)
     '''
+
 
 
 class Rating(sgqlc.types.Type):
@@ -458,17 +408,17 @@ class Rating(sgqlc.types.Type):
     quantity = sgqlc.types.Field(sgqlc.types.non_null(Int), graphql_name='quantity')
 
 
+
 class Subscription(sgqlc.types.Type):
     __schema__ = schema
     __field_names__ = ('user_login',)
     user_login = sgqlc.types.Field(LoginEvent, graphql_name='userLogin')
 
 
+
 class User(sgqlc.types.Type):
     __schema__ = schema
-    __field_names__ = (
-    'login', 'roles', 'medium_picture_url', 'small_picture_url', 'status', 'rating', 'online', 'name', 'location',
-    'registration')
+    __field_names__ = ('login', 'roles', 'medium_picture_url', 'small_picture_url', 'status', 'rating', 'online', 'name', 'location', 'registration')
     login = sgqlc.types.Field(String, graphql_name='login')
 
     roles = sgqlc.types.Field(sgqlc.types.list_of(sgqlc.types.non_null(UserRole)), graphql_name='roles')
@@ -490,11 +440,10 @@ class User(sgqlc.types.Type):
     registration = sgqlc.types.Field(DateTime, graphql_name='registration')
 
 
+
 class UserDetails(sgqlc.types.Type):
     __schema__ = schema
-    __field_names__ = (
-    'icq', 'skype', 'original_picture_url', 'info', 'settings', 'login', 'roles', 'medium_picture_url',
-    'small_picture_url', 'status', 'rating', 'online', 'name', 'location', 'registration')
+    __field_names__ = ('icq', 'skype', 'original_picture_url', 'info', 'settings', 'login', 'roles', 'medium_picture_url', 'small_picture_url', 'status', 'rating', 'online', 'name', 'location', 'registration')
     icq = sgqlc.types.Field(String, graphql_name='icq')
 
     skype = sgqlc.types.Field(String, graphql_name='skype')
@@ -526,6 +475,7 @@ class UserDetails(sgqlc.types.Type):
     registration = sgqlc.types.Field(DateTime, graphql_name='registration')
 
 
+
 class UserSettings(sgqlc.types.Type):
     __schema__ = schema
     __field_names__ = ('color_schema', 'nanny_greetings_message', 'paging')
@@ -534,6 +484,8 @@ class UserSettings(sgqlc.types.Type):
     nanny_greetings_message = sgqlc.types.Field(String, graphql_name='nannyGreetingsMessage')
 
     paging = sgqlc.types.Field(PagingSettings, graphql_name='paging')
+
+
 
 
 ########################################################################
@@ -546,3 +498,4 @@ class UserSettings(sgqlc.types.Type):
 schema.query_type = Query
 schema.mutation_type = Mutation
 schema.subscription_type = Subscription
+

@@ -10,6 +10,6 @@ structlog.configure(
 
 def test_accounts():
     client = GraphQLAccountApi(
-        host='http://localhost:5051/graphql',
+        host='http://5.63.153.31:5051/graphql',
     )
     client.accounts()
