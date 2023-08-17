@@ -1,0 +1,5 @@
+service:
+  dm_api_account_graphql: http://localhost:5051/graphql
+  mailhog: http://localhost:5025
+
+

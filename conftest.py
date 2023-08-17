@@ -6,18 +6,41 @@ import structlog
 
 from modules.account_api.account_api import GraphQLAccountApiClient
 from modules.mailhog_api.mailhog_api import MailhogApi
+from pathlib import Path
+from vyper import v
 
 structlog.configure(
     processors=[
         structlog.processors.JSONRenderer(indent=4, sort_keys=True, ensure_ascii=False)
     ]
 )
+options = (
+    'service.dm_api_account_graphql',
+    'service.mailhog',
+)
+
+
+@pytest.fixture(autouse=True)
+def set_config(request):
+    config = Path(__file__).parent.joinpath('config')
+    config_name = request.config.getoption('--env')
+    v.set_config_name(config_name)
+    v.add_config_path(config)
+    v.read_in_config()
+    for option in options:
+        v.set(option, request.config.getoption(f'--{option}'))
+
+
+def pytest_addoption(parser):
+    parser.addoption('--env', action='store', default='prod')
+    for option in options:
+        parser.addoption(f'--{option}', action='store', default=None)
 
 
 @pytest.fixture
 def account_api():
     client = GraphQLAccountApiClient(
-        host='http://5.63.153.31:5051/graphql',
+        host=v.get('service.dm_api_account_graphql'),
     )
     return client
 
@@ -25,7 +48,7 @@ def account_api():
 @pytest.fixture
 def mailhog_api():
     client = MailhogApi(
-        host='http://5.63.153.31:5025'
+        host=v.get('service.mailhog')
     )
     return client
 
