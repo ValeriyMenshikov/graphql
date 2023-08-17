@@ -4,8 +4,8 @@ from datetime import datetime
 import pytest
 import structlog
 
-from modules.account_api.account_api import GraphQLAccountApiClient
-from modules.mailhog_api.mailhog_api import MailhogApi
+from modules.graphql.account_api.account_api import GraphQLAccountApiClient
+from modules.http.mailhog_api.mailhog_api import MailhogApi
 from pathlib import Path
 from vyper import v
 
@@ -37,20 +37,10 @@ def pytest_addoption(parser):
         parser.addoption(f'--{option}', action='store', default=None)
 
 
-@pytest.fixture
-def account_api():
-    client = GraphQLAccountApiClient(
-        host=v.get('service.dm_api_account_graphql'),
-    )
-    return client
-
-
-@pytest.fixture
-def mailhog_api():
-    client = MailhogApi(
-        host=v.get('service.mailhog')
-    )
-    return client
+@pytest.fixture()
+def module_provider():
+    from modules import modules_provider
+    return modules_provider
 
 
 @pytest.fixture

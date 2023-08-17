@@ -1,5 +1,5 @@
 from contextlib import contextmanager
-from modules.account_api.errors import GraphQLClientError
+from modules.graphql.account_api.account_api import GraphQLClientError
 from hamcrest import assert_that, has_entries
 
 
