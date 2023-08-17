@@ -1,4 +1,4 @@
-from account_api.schema import PagingQueryInput
+from modules.account_api.schema import PagingQueryInput
 
 
 def test_accounts(account_api):

@@ -4,8 +4,8 @@ from datetime import datetime
 import pytest
 import structlog
 
-from account_api.account_api import GraphQLAccountApiClient
-from mailhog_api.mailhog_api import MailhogApi
+from modules.account_api.account_api import GraphQLAccountApiClient
+from modules.mailhog_api.mailhog_api import MailhogApi
 
 structlog.configure(
     processors=[
