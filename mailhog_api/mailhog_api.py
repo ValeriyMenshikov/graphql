@@ -29,7 +29,7 @@ class MailhogApi:
         Get user activation token from last email
         :return:
         """
-        sleep(2)
+        # sleep(2)
         emails = self.get_api_v2_messages(limit=1).json()
         data = json.loads(emails["items"][0]["Content"]["Body"])
         token_url = data.get("ConfirmationLinkUrl") or data.get("ConfirmationLinkUri")
