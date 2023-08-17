@@ -1,10 +1,10 @@
 from account_api.schema import RegistrationInput, UUID
 
 
-def test_register_account(mailhog_api, account_api):
-    email = "valeriy_menshikov2@mail.ru"
-    login = "valeriy_menshikov2"
-    password = "valeriy_menshikov2"
+def test_register_account(mailhog_api, account_api, prepare_user):
+    email = prepare_user.email
+    login = prepare_user.login
+    password = prepare_user.password
     registration = RegistrationInput(
         email=email,
         login=login,
