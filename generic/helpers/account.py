@@ -1,4 +1,4 @@
-from modules.graphql.account_api.schema import UpdateUserInput
+from modules.graphql.account_api.schema import UpdateUserInput, RegistrationInput
 
 
 class AccountHelper:
@@ -9,10 +9,13 @@ class AccountHelper:
         self.mailhog_api = self._logic_provider.provider.http.mailhog_api
 
     def register_account(self, login, email, password):
-        self.graphql_account.register_account(
+        registration = RegistrationInput(
             login=login,
             email=email,
             password=password
+        )
+        self.graphql_account.register_account(
+            registration=registration
         )
         activation_token = self.mailhog_api.get_token_from_last_email()
         response = self.graphql_account.activate_account(
