@@ -1,11 +1,7 @@
 from collections import namedtuple
 from datetime import datetime
-
 import pytest
 import structlog
-
-from modules.graphql.account_api.account_api import GraphQLAccountApiClient
-from modules.http.mailhog_api.mailhog_api import MailhogApi
 from pathlib import Path
 from vyper import v
 
@@ -38,9 +34,9 @@ def pytest_addoption(parser):
 
 
 @pytest.fixture()
-def module_provider():
-    from modules import modules_provider
-    return modules_provider
+def logic():
+    from generic import LogicProvider
+    return LogicProvider()
 
 
 @pytest.fixture

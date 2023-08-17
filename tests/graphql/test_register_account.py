@@ -1,20 +1,13 @@
 from modules.graphql.account_api.schema import RegistrationInput, UUID, User, UserRole
-from checkers.message_checkers import message_checker
+from generic.checkers.message_checkers import message_checker
 from hamcrest import assert_that, has_properties, has_property, instance_of
 
 
-def test_register_account(module_provider, prepare_user):
+def test_register_account(logic, prepare_user):
     email = prepare_user.email
     login = prepare_user.login
     password = prepare_user.password
-    registration = RegistrationInput(
-        email=email,
-        login=login,
-        password=password,
-    )
-    module_provider.graphql.account_api.register_account(registration=registration)
-    activation_token = module_provider.http.mailhog_api.get_token_from_last_email()
-    response = module_provider.graphql.account_api.activate_account(activation_token=UUID(activation_token))
+    response = logic.account_helper.register_account(email=email, login=login, password=password)
     assert_that(response, has_property('resource', instance_of(User)))
     assert_that(response.resource, has_properties(
         {
@@ -24,7 +17,7 @@ def test_register_account(module_provider, prepare_user):
     ))
 
 
-def test_register_account_with_exists_login(module_provider):
+def test_register_account_with_exists_login(logic):
     email = 'valeriy_menshikov5@mail.ru'
     login = 'valeriy_menshikov5'
     password = 'valeriy_menshikov'
@@ -35,4 +28,4 @@ def test_register_account_with_exists_login(module_provider):
     )
     error_message = "Validation failed: \n -- Login: Taken Severity: Error\n -- Email: Taken Severity: Error"
     with message_checker(error_message=error_message):
-        module_provider.graphql.account_api.register_account(registration=registration)
+        logic.provider.graphql.account_api.register_account(registration=registration)
