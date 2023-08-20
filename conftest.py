@@ -35,8 +35,8 @@ def pytest_addoption(parser):
 
 @pytest.fixture()
 def logic():
-    from generic import LogicProvider
-    return LogicProvider()
+    from generic import logic_provider
+    return logic_provider
 
 
 @pytest.fixture
